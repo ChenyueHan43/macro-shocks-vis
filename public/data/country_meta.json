@@ -1,0 +1,182 @@
+[
+  {
+    "country": "USA",
+    "group": "developed",
+    "region": "NorthAmerica",
+    "iso3": "USA"
+  },
+  {
+    "country": "Canada",
+    "group": "developed",
+    "region": "NorthAmerica",
+    "iso3": "CAN"
+  },
+  {
+    "country": "UK",
+    "group": "developed",
+    "region": "Europe",
+    "iso3": "GBR"
+  },
+  {
+    "country": "Germany",
+    "group": "developed",
+    "region": "Europe",
+    "iso3": "DEU"
+  },
+  {
+    "country": "France",
+    "group": "developed",
+    "region": "Europe",
+    "iso3": "FRA"
+  },
+  {
+    "country": "Italy",
+    "group": "developed",
+    "region": "Europe",
+    "iso3": "ITA"
+  },
+  {
+    "country": "Spain",
+    "group": "developed",
+    "region": "Europe",
+    "iso3": "ESP"
+  },
+  {
+    "country": "Netherlands",
+    "group": "developed",
+    "region": "Europe",
+    "iso3": "NLD"
+  },
+  {
+    "country": "Sweden",
+    "group": "developed",
+    "region": "Europe",
+    "iso3": "SWE"
+  },
+  {
+    "country": "Switzerland",
+    "group": "developed",
+    "region": "Europe",
+    "iso3": "CHE"
+  },
+  {
+    "country": "Japan",
+    "group": "developed",
+    "region": "Asia",
+    "iso3": "JPN"
+  },
+  {
+    "country": "Australia",
+    "group": "developed",
+    "region": "AsiaPacific",
+    "iso3": "AUS"
+  },
+  {
+    "country": "South_Korea",
+    "group": "developed",
+    "region": "Asia",
+    "iso3": "KOR"
+  },
+  {
+    "country": "China",
+    "group": "emerging",
+    "region": "Asia",
+    "iso3": "CHN"
+  },
+  {
+    "country": "India",
+    "group": "emerging",
+    "region": "Asia",
+    "iso3": "IND"
+  },
+  {
+    "country": "Brazil",
+    "group": "emerging",
+    "region": "LatAm",
+    "iso3": "BRA"
+  },
+  {
+    "country": "Mexico",
+    "group": "emerging",
+    "region": "LatAm",
+    "iso3": "MEX"
+  },
+  {
+    "country": "Argentina",
+    "group": "emerging",
+    "region": "LatAm",
+    "iso3": "ARG"
+  },
+  {
+    "country": "Chile",
+    "group": "emerging",
+    "region": "LatAm",
+    "iso3": "CHL"
+  },
+  {
+    "country": "Colombia",
+    "group": "emerging",
+    "region": "LatAm",
+    "iso3": "COL"
+  },
+  {
+    "country": "Russia",
+    "group": "emerging",
+    "region": "EasternEurope",
+    "iso3": "RUS"
+  },
+  {
+    "country": "Poland",
+    "group": "emerging",
+    "region": "EasternEurope",
+    "iso3": "POL"
+  },
+  {
+    "country": "Turkey",
+    "group": "emerging",
+    "region": "EasternEurope",
+    "iso3": "TUR"
+  },
+  {
+    "country": "South_Africa",
+    "group": "emerging",
+    "region": "Africa",
+    "iso3": "ZAF"
+  },
+  {
+    "country": "Nigeria",
+    "group": "emerging",
+    "region": "Africa",
+    "iso3": "NGA"
+  },
+  {
+    "country": "Egypt",
+    "group": "emerging",
+    "region": "Africa",
+    "iso3": "EGY"
+  },
+  {
+    "country": "Saudi_Arabia",
+    "group": "emerging",
+    "region": "MiddleEast",
+    "iso3": "SAU"
+  },
+  {
+    "country": "UAE",
+    "group": "emerging",
+    "region": "MiddleEast",
+    "iso3": "ARE"
+  },
+  {
+    "country": "Indonesia",
+    "group": "emerging",
+    "region": "Asia",
+    "iso3": "IDN"
+  },
+  {
+    "country": "Thailand",
+    "group": "emerging",
+    "region": "Asia",
+    "iso3": "THA"
+  }
+]

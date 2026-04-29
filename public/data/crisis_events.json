@@ -1,0 +1,66 @@
+[
+  {
+    "label": "Black Monday",
+    "date": "1987-01-01"
+  },
+  {
+    "label": "Gulf War / S&L crisis",
+    "date": "1990-01-01"
+  },
+  {
+    "label": "Recession",
+    "date": "1991-01-01"
+  },
+  {
+    "date": "1994-12-01",
+    "label": "Tequila Crisis"
+  },
+  {
+    "label": "Asian Financial Crisis",
+    "date": "1997-01-01"
+  },
+  {
+    "label": "LTCM / Russia default",
+    "date": "1998-01-01"
+  },
+  {
+    "label": "Dot-com bust / 9-11",
+    "date": "2001-01-01"
+  },
+  {
+    "label": "Corporate scandals",
+    "date": "2002-01-01"
+  },
+  {
+    "label": "Global Financial Crisis",
+    "date": "2008-01-01"
+  },
+  {
+    "label": "GFC trough",
+    "date": "2009-01-01"
+  },
+  {
+    "label": "Euro debt crisis",
+    "date": "2011-01-01"
+  },
+  {
+    "label": "China slowdown",
+    "date": "2015-01-01"
+  },
+  {
+    "label": "COVID-19",
+    "date": "2020-01-01"
+  },
+  {
+    "label": "COVID recovery / stimulus",
+    "date": "2021-01-01"
+  },
+  {
+    "label": "Inflation / rate hike cycle",
+    "date": "2022-01-01"
+  },
+  {
+    "label": "Rates plateau",
+    "date": "2023-01-01"
+  }
+]
