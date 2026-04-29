@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import { createPortal } from "react-dom";
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
 
@@ -136,11 +137,11 @@ export function ChoroplethMap({
         })}
       </svg>
 
-      {/* Tooltip */}
-      {tooltip && (
+      {/* Tooltip rendered via portal to escape stacking context */}
+      {tooltip && typeof document !== "undefined" && createPortal(
         <div
           className="map-tooltip"
-          style={{ left: tooltip.x + 14, top: tooltip.y - 20 }}
+          style={{ left: tooltip.x + 12, top: tooltip.y + 16 }}
         >
           <div className="country-name">{tooltip.name || tooltip.iso}</div>
           {tooltip.hasData ? (
@@ -158,7 +159,8 @@ export function ChoroplethMap({
           {tooltip.shock && (
             <div className="crisis-badge">{tooltip.shock}</div>
           )}
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
