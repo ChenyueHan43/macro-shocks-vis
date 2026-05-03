@@ -183,6 +183,43 @@ export function ChoroplethMap({
           {tooltip.shock && (
             <div className="crisis-badge">{tooltip.shock}</div>
           )}
+          {/* ── Feature 2: Mini sparkline ── */}
+          {tooltip.hasData && (() => {
+            const countryData = data
+              .filter((d) => d.iso3 === tooltip.iso && d.asset === selectedAsset)
+              .sort((a, b) => +a.year - +b.year);
+            if (countryData.length < 3) return null;
+            const W = 130, H = 38;
+            const years = countryData.map((d) => +d.year);
+            const rets = countryData.map((d) => +d.return_pct);
+            const xS = d3.scaleLinear().domain([d3.min(years), d3.max(years)]).range([0, W]);
+            const yS = d3.scaleLinear().domain([d3.min(rets), d3.max(rets)]).range([H, 0]);
+            const lineGen = d3.line().x((d) => xS(+d.year)).y((d) => yS(+d.return_pct)).curve(d3.curveMonotoneX);
+            const zeroY = yS(Math.max(d3.min(rets), 0));
+            const currentPt = countryData.find((d) => +d.year === +selectedYear);
+            return (
+              <svg width={W} height={H} style={{ display: "block", marginTop: 7 }}>
+                {/* Zero line */}
+                <line x1={0} x2={W} y1={zeroY} y2={zeroY} stroke="rgba(255,255,255,0.08)" strokeWidth={0.5} />
+                {/* Sparkline */}
+                <path d={lineGen(countryData)} fill="none" stroke="#7986cb" strokeWidth={1.3} />
+                {/* Current year dot */}
+                {currentPt && (
+                  <circle
+                    cx={xS(+currentPt.year)}
+                    cy={yS(+currentPt.return_pct)}
+                    r={3}
+                    fill="#ffd54f"
+                    stroke="#0d1117"
+                    strokeWidth={1}
+                  />
+                )}
+                {/* Year labels */}
+                <text x={0} y={H} fill="#546e7a" fontSize="8" dominantBaseline="auto">1985</text>
+                <text x={W} y={H} fill="#546e7a" fontSize="8" textAnchor="end" dominantBaseline="auto">2024</text>
+              </svg>
+            );
+          })()}
         </div>,
         document.body
       )}
