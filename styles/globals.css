@@ -12,21 +12,38 @@ body {
 .app-header {
   background: linear-gradient(135deg, #1a1f35 0%, #0d1b2a 100%);
   border-bottom: 1px solid #2a3050;
-  padding: 16px 32px;
+  padding: 20px 32px 18px;
+  position: relative;
+  overflow: hidden;
+}
+
+.app-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 80% at 20% 50%, rgba(92, 107, 192, 0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 80% 50%, rgba(255, 213, 79, 0.04) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .app-header h1 {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #e8eaf6;
+  font-size: 1.65rem;
+  font-weight: 800;
   margin: 0;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
+  background: linear-gradient(90deg, #e8eaf6 0%, #9fa8da 50%, #ffd54f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
 }
 
 .app-header p {
   font-size: 0.82rem;
   color: #7986cb;
-  margin: 4px 0 0 0;
+  margin: 5px 0 0 0;
+  position: relative;
 }
 
 .view-panel {

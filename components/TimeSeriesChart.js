@@ -197,6 +197,15 @@ export function TimeSeriesChart({ data, onBrushChange, countryData, countryName 
     const { grp: brushLabelLG, txt: brushLabelL } = makeLabelGroup();
     const { grp: brushLabelRG, txt: brushLabelR } = makeLabelGroup();
 
+    // Position brush labels, nudging apart when selection is too narrow to fit both boxes
+    function positionBrushLabels(px0, px1) {
+      const overflow = Math.max(0, BW + 6 - (px1 - px0));
+      brushLabelLG.attr("display", null).attr("transform", `translate(${px0 - overflow / 2},0)`);
+      brushLabelL.text(fmt(x.invert(px0)));
+      brushLabelRG.attr("display", null).attr("transform", `translate(${px1 + overflow / 2},0)`);
+      brushLabelR.text(fmt(x.invert(px1)));
+    }
+
     // ── Feature 1: Crosshair ──
     const crosshairG = g.append("g").style("display", "none");
     crosshairG.append("line").attr("class", "ch-line").attr("y1", 0).attr("y2", innerH)
@@ -212,8 +221,7 @@ export function TimeSeriesChart({ data, onBrushChange, countryData, countryName 
       .on("brush", function (event) {
         if (!event.selection) return;
         const [px0, px1] = event.selection;
-        brushLabelLG.attr("display", null).attr("transform", `translate(${px0},0)`); brushLabelL.text(fmt(x.invert(px0)));
-        brushLabelRG.attr("display", null).attr("transform", `translate(${px1},0)`); brushLabelR.text(fmt(x.invert(px1)));
+        positionBrushLabels(px0, px1);
         brushG.select(".selection").attr("fill", "rgba(92,107,192,0.18)").attr("stroke", "#7986cb").attr("stroke-width", 1.5);
       })
       .on("end", function (event) {
@@ -241,8 +249,7 @@ export function TimeSeriesChart({ data, onBrushChange, countryData, countryName 
       brushG.call(brush.move, currentSelectionRef.current);
       // Restore labels
       const [px0, px1] = currentSelectionRef.current;
-      brushLabelLG.attr("display", null).attr("transform", `translate(${px0},0)`); brushLabelL.text(fmt(x.invert(px0)));
-      brushLabelRG.attr("display", null).attr("transform", `translate(${px1},0)`); brushLabelR.text(fmt(x.invert(px1)));
+      positionBrushLabels(px0, px1);
     }
 
     // Store brush move + clear functions
@@ -385,7 +392,7 @@ export function TimeSeriesChart({ data, onBrushChange, countryData, countryName 
         </div>
       </div>
 
-      <div style={{ fontSize: "0.7rem", color: "#3a4060", marginBottom: 4, fontStyle: "italic" }}>
+      <div style={{ fontSize: "0.7rem", color: "#7986cb", marginBottom: 4, fontStyle: "italic" }}>
         Drag to select a time window — updates map &amp; heatmap · Click a country on the map to overlay its returns
       </div>
 
