@@ -114,13 +114,14 @@ body {
 
 .year-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 17px;
-  height: 17px;
-  background: #ffd54f;
+  width: 1px;
+  height: 14px;
+  background: #5c6bc0;
   border-radius: 50%;
+  box-shadow: none;
   cursor: pointer;
   border: 2px solid #0f1117;
-  box-shadow: 0 0 8px rgba(255, 213, 79, 0.6);
+  box-shadow: 0 0 8px rgba(92, 107, 192, 0.6);
 }
 
 .year-value {
