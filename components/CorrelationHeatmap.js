@@ -178,7 +178,7 @@ export function CorrelationHeatmap({ data, brushYears, selectedYear, onCountryGr
           {brushYears ? `${brushYears[0]}–${brushYears[1]}` : (selectedYear ?? "all")}
         </span>
       </div>
-      <div style={{ fontSize: "0.7rem", color: "#3a4060", marginBottom: 6, fontStyle: "italic" }}>
+      <div style={{ fontSize: "0.7rem", color: "#7986cb", marginBottom: 6, fontStyle: "italic" }}>
         Hover for description · Click for 40-year trend
         {!brushYears && selectedYear < 1990 && (
           <span style={{ marginLeft: 8, color: "#ef9a9a" }}>
