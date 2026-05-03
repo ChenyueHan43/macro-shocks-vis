@@ -199,16 +199,14 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Crisis badge */}
-          {crisisThisYear.length > 0 && (
-            <div style={{ marginBottom: 8 }}>
-              {crisisThisYear.map((c) => (
-                <span key={c} className="crisis-badge-global">
-                  ⚠ {c}
-                </span>
-              ))}
-            </div>
-          )}
+          {/* Crisis badge — fixed height so map doesn't jump */}
+          <div style={{ minHeight: 28, marginBottom: 4 }}>
+            {crisisThisYear.map((c) => (
+              <span key={c} className="crisis-badge-global">
+                ⚠ {c}
+              </span>
+            ))}
+          </div>
 
           {/* Map */}
           <ChoroplethMap
