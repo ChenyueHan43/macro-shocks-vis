@@ -164,3 +164,16 @@ body {
   border-radius: 3px;
   border: 1px solid rgba(255, 213, 79, 0.3);
 }
+
+/* Global crisis badge (shown above the map) */
+.crisis-badge-global {
+  display: inline-block;
+  background: rgba(255, 213, 79, 0.12);
+  border: 1px solid rgba(255, 213, 79, 0.35);
+  color: #ffd54f;
+  border-radius: 4px;
+  padding: 2px 9px;
+  font-size: 0.76rem;
+  margin-right: 6px;
+  margin-bottom: 6px;
+}

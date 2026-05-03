@@ -22,6 +22,7 @@ export function ChoroplethMap({
   selectedAsset,
   onCountryClick,
   highlightedIso,
+  brushYears,
 }) {
   const map = useWorldMap();
   const [tooltip, setTooltip] = useState(null);
@@ -29,21 +30,44 @@ export function ChoroplethMap({
   const WIDTH = 960;
   const HEIGHT = 500;
 
-  // Build lookup from iso3 → { return_pct, shock_event } for selected year+asset
+  // Build lookup from iso3 → { return_pct, shock_event }
+  // When brushYears is set, average returns over that year range instead of single year
   const { returnByIso, shockByIso, colorScale } = useMemo(() => {
     if (!data) return { returnByIso: {}, shockByIso: {}, colorScale: null };
 
-    const yearData = data.filter(
-      (d) => +d.year === +selectedYear && d.asset === selectedAsset
-    );
+    let subset;
+    if (brushYears) {
+      const [y0, y1] = brushYears;
+      subset = data.filter(
+        (d) => +d.year >= y0 && +d.year <= y1 && d.asset === selectedAsset
+      );
+    } else {
+      subset = data.filter(
+        (d) => +d.year === +selectedYear && d.asset === selectedAsset
+      );
+    }
 
     const returnByIso = {};
     const shockByIso = {};
-    yearData.forEach((d) => {
-      returnByIso[d.iso3] = +d.return_pct;
-      if (d.shock_event && d.shock_event.trim())
-        shockByIso[d.iso3] = d.shock_event.trim();
-    });
+
+    if (brushYears) {
+      // Average returns per country over the brushed range
+      const sums = {};
+      const counts = {};
+      subset.forEach((d) => {
+        sums[d.iso3] = (sums[d.iso3] || 0) + +d.return_pct;
+        counts[d.iso3] = (counts[d.iso3] || 0) + 1;
+        if (d.shock_event?.trim()) shockByIso[d.iso3] = d.shock_event.trim();
+      });
+      Object.keys(sums).forEach((iso) => {
+        returnByIso[iso] = sums[iso] / counts[iso];
+      });
+    } else {
+      subset.forEach((d) => {
+        returnByIso[d.iso3] = +d.return_pct;
+        if (d.shock_event?.trim()) shockByIso[d.iso3] = d.shock_event.trim();
+      });
+    }
 
     const values = Object.values(returnByIso);
     const maxAbs = Math.max(d3.max(values.map(Math.abs)) ?? 30, 10);
@@ -53,7 +77,7 @@ export function ChoroplethMap({
       .clamp(true);
 
     return { returnByIso, shockByIso, colorScale };
-  }, [data, selectedYear, selectedAsset]);
+  }, [data, selectedYear, selectedAsset, brushYears]);
 
   if (!map || !data) {
     return (
