@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import * as d3 from "d3";
 import { ChoroplethMap } from "../components/ChoroplethMap";
 import { MapLegend } from "../components/MapLegend";
@@ -93,9 +93,21 @@ export default function Home() {
     return Math.max(d3.max(vals) ?? 30, 10);
   })();
 
+  // Highlighted country data for View 3 overlay (Feature 7)
+  const highlightedCountryData = useMemo(() => {
+    if (!annualData || !highlightedIso) return null;
+    return annualData
+      .filter((d) => d.iso3 === highlightedIso && d.asset === selectedAsset)
+      .sort((a, b) => +a.year - +b.year);
+  }, [annualData, highlightedIso, selectedAsset]);
+
+  const highlightedCountryName = useMemo(() => {
+    if (!annualData || !highlightedIso) return null;
+    return annualData.find((d) => d.iso3 === highlightedIso)?.country ?? highlightedIso;
+  }, [annualData, highlightedIso]);
+
   const handleBrushChange = useCallback((range) => {
     setBrushRange(range);
-    // When brush is cleared, stop animation too
     if (!range) setIsAnimating(false);
   }, []);
 
@@ -135,7 +147,12 @@ export default function Home() {
             </button>
           )}
         </div>
-        <TimeSeriesChart data={monthlyData} onBrushChange={handleBrushChange} />
+        <TimeSeriesChart
+          data={monthlyData}
+          onBrushChange={handleBrushChange}
+          countryData={highlightedCountryData}
+          countryName={highlightedCountryName}
+        />
       </div>
 
       {/* Row 2: View 1 (Map) + View 2 (Heatmap) */}

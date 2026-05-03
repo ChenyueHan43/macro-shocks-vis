@@ -137,7 +137,7 @@ export function ChoroplethMap({
               fill={fill}
               stroke={isHighlighted ? "#ffd54f" : "#0f1424"}
               strokeWidth={isHighlighted ? 2 : 0.5}
-              style={{ cursor: hasData ? "pointer" : "default" }}
+              style={{ cursor: hasData ? "pointer" : "default", transition: "fill 0.5s ease" }}
               onMouseEnter={(e) =>
                 setTooltip({
                   x: e.clientX,
