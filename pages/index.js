@@ -200,9 +200,9 @@ export default function Home() {
           </div>
 
           {/* Crisis badge — fixed height so map doesn't jump */}
-          <div style={{ minHeight: 28, marginBottom: 4 }}>
+          <div style={{ height: 28, marginBottom: 4, overflow: "hidden", display: "flex", alignItems: "center" }}>
             {crisisThisYear.map((c) => (
-              <span key={c} className="crisis-badge-global">
+              <span key={c} className="crisis-badge-global" style={{ marginBottom: 0 }}>
                 ⚠ {c}
               </span>
             ))}
