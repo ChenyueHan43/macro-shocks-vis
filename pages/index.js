@@ -139,20 +139,9 @@ export default function Home() {
         <div className="view-panel" style={{ flex: "1 1 520px", minWidth: 320 }}>
           <div className="view-title">
             View 1 — Geographic Asset Returns
-            {brushYears && (
-              <span
-                style={{
-                  marginLeft: 8,
-                  fontWeight: 400,
-                  color: "#ffd54f",
-                  fontSize: "0.72rem",
-                  textTransform: "none",
-                  letterSpacing: 0,
-                }}
-              >
-                avg {brushYears[0]}–{brushYears[1]}
-              </span>
-            )}
+            <span style={{ marginLeft: 8, fontWeight: 400, color: "#ffd54f", fontSize: "0.72rem", textTransform: "none", letterSpacing: 0 }}>
+              {brushYears ? `avg ${brushYears[0]}–${brushYears[1]}` : selectedYear}
+            </span>
           </div>
 
           {/* Asset selector */}
@@ -189,7 +178,6 @@ export default function Home() {
                 onChange={(e) => setSelectedYear(+e.target.value)}
               />
               <span className="year-label">{MAX_YEAR}</span>
-              <span className="year-value">{selectedYear}</span>
               <button
                 className="animate-btn"
                 onClick={() => setIsAnimating((v) => !v)}
