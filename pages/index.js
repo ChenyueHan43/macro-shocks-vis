@@ -110,7 +110,35 @@ export default function Home() {
         </p>
       </div>
 
-      {/* Row 1: View 1 (Map) + View 2 (Heatmap) */}
+      {/* Row 1: View 3 — Monthly Time-Series (full width) */}
+      <div className="view-panel">
+        <div className="view-title">
+          View 3 — Monthly Panic Indicators
+          {brushYears && (
+            <button
+              onClick={() => setBrushRange(null)}
+              style={{
+                marginLeft: 12,
+                background: "rgba(255,213,79,0.1)",
+                border: "1px solid rgba(255,213,79,0.35)",
+                color: "#ffd54f",
+                borderRadius: 4,
+                padding: "1px 8px",
+                fontSize: "0.7rem",
+                cursor: "pointer",
+                fontWeight: 400,
+                textTransform: "none",
+                letterSpacing: 0,
+              }}
+            >
+              ✕ Clear brush
+            </button>
+          )}
+        </div>
+        <TimeSeriesChart data={monthlyData} onBrushChange={handleBrushChange} />
+      </div>
+
+      {/* Row 2: View 1 (Map) + View 2 (Heatmap) */}
       <div style={{ display: "flex", gap: 0, flexWrap: "wrap" }}>
         {/* View 1 — Choropleth Map */}
         <div className="view-panel" style={{ flex: "1 1 520px", minWidth: 320 }}>
@@ -237,33 +265,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Row 2: View 3 — Monthly Time-Series (full width) */}
-      <div className="view-panel">
-        <div className="view-title">
-          View 3 — Monthly Panic Indicators
-          {brushYears && (
-            <button
-              onClick={() => setBrushRange(null)}
-              style={{
-                marginLeft: 12,
-                background: "rgba(255,213,79,0.1)",
-                border: "1px solid rgba(255,213,79,0.35)",
-                color: "#ffd54f",
-                borderRadius: 4,
-                padding: "1px 8px",
-                fontSize: "0.7rem",
-                cursor: "pointer",
-                fontWeight: 400,
-                textTransform: "none",
-                letterSpacing: 0,
-              }}
-            >
-              ✕ Clear brush
-            </button>
-          )}
-        </div>
-        <TimeSeriesChart data={monthlyData} onBrushChange={handleBrushChange} />
-      </div>
     </div>
   );
 }
