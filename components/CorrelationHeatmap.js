@@ -113,7 +113,7 @@ const LABEL_W = 110;
 const LABEL_H = 30;
 const PAD_B = 28;
 
-export function CorrelationHeatmap({ data, brushYears, onCountryGroupChange }) {
+export function CorrelationHeatmap({ data, brushYears, selectedYear, onCountryGroupChange }) {
   const [devLevel, setDevLevel] = useState("all");
   const [sparkline, setSparkline] = useState(null);
   const [cellTooltip, setCellTooltip] = useState(null); // {x, y, macroVar, assetClass, corr}
@@ -135,6 +135,8 @@ export function CorrelationHeatmap({ data, brushYears, onCountryGroupChange }) {
     if (brushYears) {
       const [y0, y1] = brushYears;
       filtered = filtered.filter((d) => +d.year >= y0 && +d.year <= y1);
+    } else if (selectedYear) {
+      filtered = filtered.filter((d) => +d.year === selectedYear);
     }
     const sums = {}, counts = {};
     filtered.forEach((d) => {
@@ -145,7 +147,7 @@ export function CorrelationHeatmap({ data, brushYears, onCountryGroupChange }) {
     const result = {};
     Object.keys(sums).forEach((k) => { result[k] = sums[k] / counts[k]; });
     return result;
-  }, [data, devLevel, brushYears]);
+  }, [data, devLevel, brushYears, selectedYear]);
 
   const sparklineData = useMemo(() => {
     if (!sparkline || !data) return null;
@@ -172,11 +174,9 @@ export function CorrelationHeatmap({ data, brushYears, onCountryGroupChange }) {
             </button>
           ))}
         </div>
-        {brushYears && (
-          <span style={{ fontSize: "0.7rem", color: "#ffd54f", background: "rgba(255,213,79,0.08)", border: "1px solid rgba(255,213,79,0.25)", borderRadius: 3, padding: "2px 7px" }}>
-            {brushYears[0]}–{brushYears[1]}
-          </span>
-        )}
+        <span style={{ fontSize: "0.7rem", color: "#ffd54f", background: "rgba(255,213,79,0.08)", border: "1px solid rgba(255,213,79,0.25)", borderRadius: 3, padding: "2px 7px" }}>
+          {brushYears ? `${brushYears[0]}–${brushYears[1]}` : (selectedYear ?? "all")}
+        </span>
       </div>
       <div style={{ fontSize: "0.7rem", color: "#3a4060", marginBottom: 6, fontStyle: "italic" }}>
         Hover for description · Click for 40-year trend
@@ -270,13 +270,14 @@ export function CorrelationHeatmap({ data, brushYears, onCountryGroupChange }) {
       {sparkline && sparklineData && (
         <SparklinePopup data={sparklineData} macroVar={sparkline.macro_var}
           assetClass={sparkline.asset_class} brushYears={brushYears}
+          selectedYear={selectedYear}
           onClose={() => setSparkline(null)} />
       )}
     </div>
   );
 }
 
-function SparklinePopup({ data, macroVar, assetClass, brushYears, onClose }) {
+function SparklinePopup({ data, macroVar, assetClass, brushYears, selectedYear, onClose }) {
   const W = 300, H = 130;
   const m = { top: 18, right: 16, bottom: 24, left: 36 };
   const iW = W - m.left - m.right, iH = H - m.top - m.bottom;
@@ -306,6 +307,19 @@ function SparklinePopup({ data, macroVar, assetClass, brushYears, onClose }) {
           <line x1={0} x2={iW} y1={y(0)} y2={y(0)} stroke="#2a3050" strokeWidth={1} />
           <path d={areaGen(data)} fill="rgba(92,107,192,0.12)" />
           <path d={lineGen(data)} fill="none" stroke="#7986cb" strokeWidth={1.8} />
+          {/* Current year marker */}
+          {selectedYear && !brushYears && (() => {
+            const pt = data.find((d) => d.year === selectedYear);
+            if (!pt) return null;
+            return (
+              <g>
+                <line x1={x(selectedYear)} x2={x(selectedYear)} y1={0} y2={iH}
+                  stroke="rgba(255,213,79,0.35)" strokeWidth={1} strokeDasharray="3,2" />
+                <circle cx={x(selectedYear)} cy={y(pt.corr)} r={4}
+                  fill="#ffd54f" stroke="#0d1117" strokeWidth={1.5} />
+              </g>
+            );
+          })()}
           {yTicks.map((t) => (
             <g key={t}>
               <line x1={-3} x2={0} y1={y(t)} y2={y(t)} stroke="#2a3050" />

@@ -253,6 +253,7 @@ export default function Home() {
           <CorrelationHeatmap
             data={correlationData}
             brushYears={brushYears}
+            selectedYear={selectedYear}
             onCountryGroupChange={() => {}}
           />
         </div>
