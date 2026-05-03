@@ -47,6 +47,7 @@ export function TimeSeriesChart({ data, onBrushChange, countryData, countryName 
   const [mode, setMode] = useState("zscore");
   const [hoverInfo, setHoverInfo] = useState(null);
   const [jumpRequest, setJumpRequest] = useState(null);
+  const [hasSelection, setHasSelection] = useState(false);
 
   // ── Main chart effect ──
   useEffect(() => {
@@ -208,12 +209,14 @@ export function TimeSeriesChart({ data, onBrushChange, countryData, countryName 
         if (suppressEndRef.current) { suppressEndRef.current = false; return; }
         if (!event.selection) {
           currentSelectionRef.current = null;
+          setHasSelection(false);
           brushLabelL.attr("display", "none");
           brushLabelR.attr("display", "none");
           onBrushChange && onBrushChange(null);
           return;
         }
         currentSelectionRef.current = event.selection;
+        setHasSelection(true);
         onBrushChange && onBrushChange(event.selection.map((px) => x.invert(px)));
       });
 
@@ -231,13 +234,20 @@ export function TimeSeriesChart({ data, onBrushChange, countryData, countryName 
       brushLabelR.attr("x", px1).attr("display", null).text(fmt(x.invert(px1)));
     }
 
-    // Store brush move function for crisis jump
+    // Store brush move + clear functions
     brushMoveRef.current = {
       moveTo: (dates) => {
         const px0 = x(dates[0]), px1 = x(dates[1]);
         suppressEndRef.current = true;
         currentSelectionRef.current = [px0, px1];
         brushG.call(brush.move, [px0, px1]);
+      },
+      clear: () => {
+        suppressEndRef.current = true;
+        brushG.call(brush.move, null);
+        currentSelectionRef.current = null;
+        brushLabelL.attr("display", "none");
+        brushLabelR.attr("display", "none");
       },
     };
 
@@ -279,9 +289,16 @@ export function TimeSeriesChart({ data, onBrushChange, countryData, countryName 
   useEffect(() => {
     if (!jumpRequest || !brushMoveRef.current) return;
     brushMoveRef.current.moveTo(jumpRequest);
+    setHasSelection(true);
     onBrushChange && onBrushChange(jumpRequest);
     setJumpRequest(null);
   }, [jumpRequest]); // eslint-disable-line
+
+  const handleClear = () => {
+    brushMoveRef.current?.clear();
+    setHasSelection(false);
+    onBrushChange && onBrushChange(null);
+  };
 
   const toggleKey = (key) => {
     setActiveKeys((prev) => {
@@ -295,8 +312,8 @@ export function TimeSeriesChart({ data, onBrushChange, countryData, countryName 
   return (
     <div>
       {/* ── Feature 6: Crisis quick-jump bar ── */}
-      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 8 }}>
-        <span style={{ fontSize: "0.7rem", color: "#546e7a", alignSelf: "center", marginRight: 2 }}>Jump to:</span>
+      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 8, alignItems: "center" }}>
+        <span style={{ fontSize: "0.7rem", color: "#546e7a", marginRight: 2 }}>Jump to:</span>
         {CRISIS_PRESETS.map((c) => (
           <button key={c.label}
             onClick={() => setJumpRequest([c.start, c.end])}
@@ -311,6 +328,19 @@ export function TimeSeriesChart({ data, onBrushChange, countryData, countryName 
             {c.label}
           </button>
         ))}
+        {hasSelection && (
+          <button onClick={handleClear}
+            style={{
+              marginLeft: 4, background: "rgba(239,83,80,0.1)", border: "1px solid rgba(239,83,80,0.35)",
+              color: "#ef9a9a", borderRadius: 4, padding: "2px 9px",
+              fontSize: "0.72rem", cursor: "pointer", transition: "background 0.15s",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(239,83,80,0.2)")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(239,83,80,0.1)")}
+          >
+            ✕ Clear
+          </button>
+        )}
       </div>
 
       {/* Controls */}

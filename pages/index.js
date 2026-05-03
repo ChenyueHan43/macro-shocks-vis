@@ -124,29 +124,7 @@ export default function Home() {
 
       {/* Row 1: View 3 — Monthly Time-Series (full width) */}
       <div className="view-panel">
-        <div className="view-title">
-          View 3 — Monthly Panic Indicators
-          {brushYears && (
-            <button
-              onClick={() => setBrushRange(null)}
-              style={{
-                marginLeft: 12,
-                background: "rgba(255,213,79,0.1)",
-                border: "1px solid rgba(255,213,79,0.35)",
-                color: "#ffd54f",
-                borderRadius: 4,
-                padding: "1px 8px",
-                fontSize: "0.7rem",
-                cursor: "pointer",
-                fontWeight: 400,
-                textTransform: "none",
-                letterSpacing: 0,
-              }}
-            >
-              ✕ Clear brush
-            </button>
-          )}
-        </div>
+        <div className="view-title">View 3 — Monthly Panic Indicators</div>
         <TimeSeriesChart
           data={monthlyData}
           onBrushChange={handleBrushChange}
