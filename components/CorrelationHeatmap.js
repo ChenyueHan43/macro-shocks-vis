@@ -180,6 +180,11 @@ export function CorrelationHeatmap({ data, brushYears, selectedYear, onCountryGr
       </div>
       <div style={{ fontSize: "0.7rem", color: "#3a4060", marginBottom: 6, fontStyle: "italic" }}>
         Hover for description · Click for 40-year trend
+        {!brushYears && selectedYear < 1990 && (
+          <span style={{ marginLeft: 8, color: "#ef9a9a" }}>
+            — no data before 1990 (5-yr rolling window)
+          </span>
+        )}
       </div>
 
       <div style={{ overflowX: "auto" }}>
