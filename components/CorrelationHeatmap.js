@@ -223,7 +223,7 @@ export function CorrelationHeatmap({ data, brushYears, selectedYear, onCountryGr
                       />
                       {hasVal && (
                         <text x={LABEL_W + j * CELL_W + CELL_W / 2} y={rowY + CELL_H / 2 + 4}
-                          textAnchor="middle" fill={Math.abs(corr) > 0.45 ? "#fff" : "#ccc"}
+                          textAnchor="middle" fill={Math.abs(corr) > 0.4 ? "#fff" : "#1a2535"}
                           fontSize="10" fontWeight="600" pointerEvents="none">
                           {corr.toFixed(2)}
                         </text>
