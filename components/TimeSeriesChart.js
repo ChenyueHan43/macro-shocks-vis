@@ -179,12 +179,23 @@ export function TimeSeriesChart({ data, onBrushChange, countryData, countryName 
       .attr("text-anchor", "middle").attr("fill", "#546e7a").attr("font-size", "9px")
       .text(mode === "zscore" ? "Z-Score (σ)" : "Value (per-series scale)");
 
-    // ── Feature 3: Brush date labels ──
-    const brushLabelL = g.append("text").attr("y", -7).attr("text-anchor", "middle")
-      .attr("fill", "#ffd54f").attr("font-size", "9px").attr("display", "none");
-    const brushLabelR = g.append("text").attr("y", -7).attr("text-anchor", "middle")
-      .attr("fill", "#ffd54f").attr("font-size", "9px").attr("display", "none");
+    // ── Feature 3: Brush date labels (with background box) ──
     const fmt = d3.timeFormat("%Y-%m");
+    const BW = 50, BH = 14;
+    function makeLabelGroup() {
+      const grp = g.append("g").attr("display", "none");
+      grp.append("rect").attr("class", "lbg")
+        .attr("x", -BW / 2).attr("y", -BH - 3)
+        .attr("width", BW).attr("height", BH).attr("rx", 2)
+        .attr("fill", "rgba(8,12,24,0.92)")
+        .attr("stroke", "rgba(255,213,79,0.4)").attr("stroke-width", 0.8);
+      const txt = grp.append("text")
+        .attr("y", -6).attr("text-anchor", "middle")
+        .attr("fill", "#ffd54f").attr("font-size", "9px").attr("font-weight", "600");
+      return { grp, txt };
+    }
+    const { grp: brushLabelLG, txt: brushLabelL } = makeLabelGroup();
+    const { grp: brushLabelRG, txt: brushLabelR } = makeLabelGroup();
 
     // ── Feature 1: Crosshair ──
     const crosshairG = g.append("g").style("display", "none");
@@ -201,8 +212,8 @@ export function TimeSeriesChart({ data, onBrushChange, countryData, countryName 
       .on("brush", function (event) {
         if (!event.selection) return;
         const [px0, px1] = event.selection;
-        brushLabelL.attr("x", px0).attr("display", null).text(fmt(x.invert(px0)));
-        brushLabelR.attr("x", px1).attr("display", null).text(fmt(x.invert(px1)));
+        brushLabelLG.attr("display", null).attr("transform", `translate(${px0},0)`); brushLabelL.text(fmt(x.invert(px0)));
+        brushLabelRG.attr("display", null).attr("transform", `translate(${px1},0)`); brushLabelR.text(fmt(x.invert(px1)));
         brushG.select(".selection").attr("fill", "rgba(92,107,192,0.18)").attr("stroke", "#7986cb").attr("stroke-width", 1.5);
       })
       .on("end", function (event) {
@@ -210,8 +221,8 @@ export function TimeSeriesChart({ data, onBrushChange, countryData, countryName 
         if (!event.selection) {
           currentSelectionRef.current = null;
           setHasSelection(false);
-          brushLabelL.attr("display", "none");
-          brushLabelR.attr("display", "none");
+          brushLabelLG.attr("display", "none");
+          brushLabelRG.attr("display", "none");
           onBrushChange && onBrushChange(null);
           return;
         }
@@ -230,8 +241,8 @@ export function TimeSeriesChart({ data, onBrushChange, countryData, countryName 
       brushG.call(brush.move, currentSelectionRef.current);
       // Restore labels
       const [px0, px1] = currentSelectionRef.current;
-      brushLabelL.attr("x", px0).attr("display", null).text(fmt(x.invert(px0)));
-      brushLabelR.attr("x", px1).attr("display", null).text(fmt(x.invert(px1)));
+      brushLabelLG.attr("display", null).attr("transform", `translate(${px0},0)`); brushLabelL.text(fmt(x.invert(px0)));
+      brushLabelRG.attr("display", null).attr("transform", `translate(${px1},0)`); brushLabelR.text(fmt(x.invert(px1)));
     }
 
     // Store brush move + clear functions
@@ -246,8 +257,8 @@ export function TimeSeriesChart({ data, onBrushChange, countryData, countryName 
         suppressEndRef.current = true;
         brushG.call(brush.move, null);
         currentSelectionRef.current = null;
-        brushLabelL.attr("display", "none");
-        brushLabelR.attr("display", "none");
+        brushLabelLG.attr("display", "none");
+        brushLabelRG.attr("display", "none");
       },
     };
 
