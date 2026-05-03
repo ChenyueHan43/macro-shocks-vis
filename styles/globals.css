@@ -80,27 +80,30 @@ body {
 
 .year-label {
   font-size: 0.85rem;
-  color: #9fa8da;
+  color: #c5cae9;
   white-space: nowrap;
 }
 
 .year-slider {
   -webkit-appearance: none;
   width: 260px;
-  height: 4px;
-  background: #2a3050;
+  height: 5px;
+  background: linear-gradient(to right, #7986cb, #3949ab);
   outline: none;
-  border-radius: 2px;
+  border-radius: 3px;
   cursor: pointer;
+  box-shadow: 0 0 6px rgba(92, 107, 192, 0.4);
 }
 
 .year-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 14px;
-  height: 14px;
-  background: #5c6bc0;
+  width: 17px;
+  height: 17px;
+  background: #ffd54f;
   border-radius: 50%;
   cursor: pointer;
+  border: 2px solid #0f1117;
+  box-shadow: 0 0 8px rgba(255, 213, 79, 0.6);
 }
 
 .year-value {
