@@ -115,11 +115,21 @@ export default function Home() {
     <div>
       {/* Header */}
       <div className="app-header">
-        <h1>Global Macro Shocks: 1985 – 2024</h1>
-        <p>
-          40-year interactive visualization of economic crises across 30
-          countries &mdash; brush the timeline to filter all views
-        </p>
+      <h1>
+        <a
+          href="https://docs.google.com/presentation/d/1Bo8l6dKKkFLwe_hZbpymOPdAfobkfHM3/edit?usp=sharing&ouid=107740996419907754103&rtpof=true&sd=true"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="title-link"
+        >
+          Global Macro Shocks
+        </a>
+        : 1985 – 2024
+      </h1>
+      <p>
+        40-year interactive visualization of economic crises across 30
+        countries &mdash; brush the timeline to filter all views
+      </p>
       </div>
 
       {/* Row 1: View 3 — Monthly Time-Series (full width) */}
